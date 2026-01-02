@@ -37,7 +37,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://jsonplaceholder.typicode.com/todos/1",
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
 					"protocol": "https",
 					"host": [
 						"jsonplaceholder",
@@ -45,7 +45,7 @@
 						"com"
 					],
 					"path": [
-						"todos",
+						"posts",
 						"1"
 					]
 				}

@@ -31,9 +31,15 @@ async function runLoadTest() {
       });
     });
   }
+  
+fs.writeFileSync(
+  './docs/load-data.json',
+  JSON.stringify(allResults, null, 2)
+);
 
   generateHtmlReport(allResults);
 }
+
 
 function generateHtmlReport(results) {
   const path = './docs/index.html';

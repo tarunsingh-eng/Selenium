@@ -1,0 +1,21 @@
+{
+  "name": "my-test-api",
+  "version": "1.0.0",
+  "description": "API + Load Testing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node loadTest.js",
+    "dev": "node server.js & sleep 2 && node loadTest.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.22.1",
+    "newman": "^5.3.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

@@ -28,6 +28,21 @@ jobs:
 
       - name: Run API Tests
         run: newman run src/test/api/api-smoke-tests.json
+  
+      - name: Start Test API Server
+        run: |
+          node server.js &
+          sleep 3
 
+      - name: Run Load Tests
+        run: node loadTest.js
+
+      - name: Upload Load Test Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: load-test-reports
+          path: reports/
+          
       - name: Run Selenium Tests
         run: mvn test

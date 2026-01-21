@@ -37,12 +37,14 @@ jobs:
       - name: Run Load Tests
         run: node src/test/api/loadTest.js
 
-      - name: Upload Load Test Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: load-test-reports
-          path: docs/
+       - name: Commit report to repo
+        if: github.event_name == 'push'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add docs/index.html
+          git diff --cached --quiet || git commit -m "Update load test report"
+          git push
           
       - name: Run Selenium Tests
         run: mvn test

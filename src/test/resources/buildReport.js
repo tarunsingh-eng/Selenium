@@ -2,14 +2,32 @@ const fs = require('fs');
 const path = require('path');
 const xml2js = require('xml2js');
 
-// ---------- LOAD TEST ----------
-const loadData = require('../../../docs/load-data.json'); 
+/* =========================
+   LOAD TEST DATA
+========================= */
+let loadData = { totalRuns: 0, avgResponse: 0 };
 
-// ---------- SMOKE TEST ----------
-const smoke = JSON.parse(fs.readFileSync('docs/smoke-report.json'));
-const smokeStats = smoke.run.stats.tests;
+try {
+  loadData = require('../../../docs/load-data.json');
+} catch (e) {
+  console.warn('⚠️ load-data.json not found, using defaults');
+}
 
-// ---------- SELENIUM ----------
+/* =========================
+   API SMOKE TEST DATA
+========================= */
+let smokeStats = { total: 0, failed: 0 };
+
+try {
+  const smoke = JSON.parse(fs.readFileSync('docs/smoke-report.json'));
+  smokeStats = smoke.run.stats.tests;
+} catch (e) {
+  console.warn('⚠️ smoke-report.json not found, using defaults');
+}
+
+/* =========================
+   SELENIUM (JUnit XML)
+========================= */
 async function readSeleniumResults() {
   const dir = 'target/surefire-reports';
 
@@ -26,12 +44,12 @@ async function readSeleniumResults() {
     const xml = fs.readFileSync(path.join(dir, file), 'utf-8');
     const result = await xml2js.parseStringPromise(xml);
 
-    // JUnit format safety
     let suites = [];
 
+    // JUnit formats
     if (result.testsuite) {
       suites = [result.testsuite];
-    } else if (result.testsuites && result.testsuites.testsuite) {
+    } else if (result.testsuites?.testsuite) {
       suites = result.testsuites.testsuite;
     }
 
@@ -46,50 +64,105 @@ async function readSeleniumResults() {
   return { total, failed };
 }
 
-
+/* =========================
+   BUILD HTML
+========================= */
 (async () => {
   const selenium = await readSeleniumResults();
+
+  const uiPassRate = selenium.total
+    ? Math.round(((selenium.total - selenium.failed) / selenium.total) * 100)
+    : 0;
 
   const html = `
 <!DOCTYPE html>
 <html>
 <head>
-  <title>QA Automation Report</title>
+  <meta charset="UTF-8" />
+  <title>QA Automation Dashboard</title>
   <style>
-    body { font-family: Arial; padding: 40px; }
-    h1 { color: #333; }
-    .card { padding: 20px; margin-bottom: 20px; border: 1px solid #ddd; }
-    .ok { color: green; }
-    .fail { color: red; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont;
+      background: #f6f8fa;
+      padding: 40px;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .metric {
+      font-size: 32px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .label {
+      color: #57606a;
+      margin-top: 6px;
+    }
+    .ok {
+      color: #2da44e;
+    }
+    .fail {
+      color: #cf222e;
+    }
+    footer {
+      margin-top: 40px;
+      color: #57606a;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
 <h1>🧪 QA Automation Dashboard</h1>
 
-<div class="card">
-  <h2>API Smoke Tests</h2>
-  <p>Total: ${smokeStats.total}</p>
-  <p class="${smokeStats.failed ? 'fail' : 'ok'}">
-    Failed: ${smokeStats.failed}
-  </p>
+<div class="grid">
+
+  <div class="card">
+    <h2>API Smoke Tests</h2>
+    <div class="metric">${smokeStats.total}</div>
+    <div class="label">Total Tests</div>
+    <div class="metric ${smokeStats.failed ? 'fail' : 'ok'}">
+      ${smokeStats.failed}
+    </div>
+    <div class="label">Failures</div>
+  </div>
+
+  <div class="card">
+    <h2>API Load Tests</h2>
+    <div class="metric">${loadData.totalRuns ?? 0}</div>
+    <div class="label">Total Runs</div>
+    <div class="metric">${loadData.avgResponse ?? 0} ms</div>
+    <div class="label">Average Response</div>
+  </div>
+
+  <div class="card">
+    <h2>Selenium UI Tests</h2>
+    <div class="metric">${selenium.total}</div>
+    <div class="label">Total Tests</div>
+    <div class="metric ${selenium.failed ? 'fail' : 'ok'}">
+      ${selenium.failed}
+    </div>
+    <div class="label">Failures</div>
+    <div class="metric ok">${uiPassRate}%</div>
+    <div class="label">Pass Rate</div>
+  </div>
+
 </div>
 
-<div class="card">
-  <h2>API Load Tests</h2>
-  <p>Total Runs: ${loadData.totalRuns}</p>
-  <p>Avg Response: ${loadData.avgResponse} ms</p>
-</div>
-
-<div class="card">
-  <h2>Selenium UI Tests</h2>
-  <p>Total: ${selenium.total}</p>
-  <p class="${selenium.failed ? 'fail' : 'ok'}">
-    Failed: ${selenium.failed}
-  </p>
-</div>
-
-<p><em>Generated on ${new Date().toLocaleString()}</em></p>
+<footer>
+  Generated on ${new Date().toLocaleString()}
+</footer>
 
 </body>
 </html>

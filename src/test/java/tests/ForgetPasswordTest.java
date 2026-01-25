@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
-public class ForgetPassword{
+public class ForgetPasswordTest{
     
     @Test
     public void forgetpasswordLinkWorks() throws InterruptedException {
@@ -31,4 +31,5 @@ public class ForgetPassword{
             driver.quit();
             
     }
+
 }

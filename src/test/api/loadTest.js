@@ -32,10 +32,20 @@ async function runLoadTest() {
     });
   }
   
+const avgResponse =
+  allResults.reduce((sum, r) =>
+    sum + (typeof r.responseTime === 'number' ? r.responseTime : 0), 0
+  ) / allResults.length;
+
 fs.writeFileSync(
   'docs/load-data.json',
-  JSON.stringify(allResults, null, 2)
+  JSON.stringify({
+    totalRuns: allResults.length,
+    avgResponse: Math.round(avgResponse),
+    details: allResults
+  }, null, 2)
 );
+
 
   generateHtmlReport(allResults);
 }
@@ -445,4 +455,5 @@ runLoadTest().catch(err => {
   console.error('Load test failed:', err);
   process.exit(1);
 });
+
 

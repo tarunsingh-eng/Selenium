@@ -8,11 +8,14 @@ import org.openqa.selenium.WebDriver;
 //import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 //import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.Test;
+import org.junit.Assert;
+
 
 public class DataDrivenLoginTest {
 	@Test
@@ -80,15 +83,18 @@ public class DataDrivenLoginTest {
          
          
          
-         String errorMsg = driver.findElement(By.cssSelector("p.error")).getText();
-         Assert.assertTrue(errorMsg.contains("Incorrect"),
-                 "Error message not shown for invalid login!");
-         System.out.print("\nInvalid Login - Pass");
+         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+         String errorMsg = wait.until(
+                 ExpectedConditions.visibilityOfElementLocated(By.cssSelector("p.error"))
+         ).getText();
+
+         Assert.assertTrue(
+                 "Error message not shown for invalid login!",
+                 errorMsg.contains("Incorrect")
+         );
+
+         System.out.println("Invalid Login - Pass");
          driver.quit();
-		//	System.out.println(n);
-		//	n++;
-		// }
-		
 		
 	}
 }

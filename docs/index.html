@@ -2,42 +2,91 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>QA Automation Report</title>
+  <meta charset="UTF-8" />
+  <title>QA Automation Dashboard</title>
   <style>
-    body { font-family: Arial; padding: 40px; }
-    h1 { color: #333; }
-    .card { padding: 20px; margin-bottom: 20px; border: 1px solid #ddd; }
-    .ok { color: green; }
-    .fail { color: red; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont;
+      background: #f6f8fa;
+      padding: 40px;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    }
+    .metric {
+      font-size: 32px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .label {
+      color: #57606a;
+      margin-top: 6px;
+    }
+    .ok {
+      color: #2da44e;
+    }
+    .fail {
+      color: #cf222e;
+    }
+    footer {
+      margin-top: 40px;
+      color: #57606a;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
 
 <h1>🧪 QA Automation Dashboard</h1>
 
-<div class="card">
-  <h2>API Smoke Tests</h2>
-  <p>Total: 1</p>
-  <p class="ok">
-    Failed: 0
-  </p>
+<div class="grid">
+
+  <div class="card">
+    <h2>API Smoke Tests</h2>
+    <div class="metric">1</div>
+    <div class="label">Total Tests</div>
+    <div class="metric ok">
+      0
+    </div>
+    <div class="label">Failures</div>
+  </div>
+
+  <div class="card">
+    <h2>API Load Tests</h2>
+    <div class="metric">0</div>
+    <div class="label">Total Runs</div>
+    <div class="metric">0 ms</div>
+    <div class="label">Average Response</div>
+  </div>
+
+  <div class="card">
+    <h2>Selenium UI Tests</h2>
+    <div class="metric">7</div>
+    <div class="label">Total Tests</div>
+    <div class="metric ok">
+      0
+    </div>
+    <div class="label">Failures</div>
+    <div class="metric ok">100%</div>
+    <div class="label">Pass Rate</div>
+  </div>
+
 </div>
 
-<div class="card">
-  <h2>API Load Tests</h2>
-  <p>Total Runs: undefined</p>
-  <p>Avg Response: undefined ms</p>
-</div>
-
-<div class="card">
-  <h2>Selenium UI Tests</h2>
-  <p>Total: 7</p>
-  <p class="ok">
-    Failed: 0
-  </p>
-</div>
-
-<p><em>Generated on 1/25/2026, 8:05:50 AM</em></p>
+<footer>
+  Generated on 1/25/2026, 8:10:45 AM
+</footer>
 
 </body>
 </html>

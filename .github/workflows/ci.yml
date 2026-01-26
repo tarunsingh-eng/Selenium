@@ -30,20 +30,17 @@ jobs:
 
       - name: Install Node dependencies
         run: |
-          npm install newman xml2js
-      
-      - name: Install Newman HTML reporter
-        run: |
-          npm install -g newman-reporter-htmlextra
-      
+          npm install newman xml2js newman-reporter-htmlextra
+
       - name: Run API Smoke Tests
         run: |
             newman run src/test/api/api-smoke-tests.json \
             --reporters cli,json,htmlextra \
-            --reporter-json-export docs/smoke-report.json \ 
+            --reporter-json-export docs/smoke-report.json \
             --reporter-htmlextra-export docs/smoke-report.html \
             --color on \
             --verbose
+
 
       - name: Start Test API Server
         run: |

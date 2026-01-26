@@ -30,11 +30,8 @@ jobs:
 
       - name: Install Node dependencies
         run: |
-          npm install newman xml2js newman-reporter-htmlextra
+          npm install newman@^6.0.0 newman-reporter-htmlextra xml2js
 
-      - name: Install HTML Extra
-        run: |
-          npm install newman-reporter-htmlextra
 
       - name: Run API Smoke Tests
         run: |

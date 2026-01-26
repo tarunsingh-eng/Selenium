@@ -32,6 +32,10 @@ jobs:
         run: |
           npm install newman xml2js newman-reporter-htmlextra
 
+      - name: Install HTML Extra
+        run: |
+          npm install newman-reporter-htmlextra
+
       - name: Run API Smoke Tests
         run: |
             newman run src/test/api/api-smoke-tests.json \

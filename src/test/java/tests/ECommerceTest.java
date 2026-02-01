@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -14,6 +15,14 @@ public class ECommerceTest {
 
 	@Test
 	public void addItemsToCart() throws Exception {
+		FirefoxOptions options = new FirefoxOptions();
+		options.addArguments(
+				"--headless=new",
+				"--no-sandbox",
+				"--disable-dev-shm-usage",
+				"--disable-gpu",
+				"--window-size=1920,1080"
+				);
 	/*	ChromeOptions options = new ChromeOptions();
 		 options.addArguments(
 				//"--headless=new",
@@ -37,7 +46,7 @@ public class ECommerceTest {
 			));
 		WebDriverManager.chromedriver().setup(); */
 		WebDriverManager.firefoxdriver().setup();
-		WebDriver driver = new FirefoxDriver(); // ChromeDriver(options);
+		WebDriver driver = new FirefoxDriver(options); // ChromeDriver(options);
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		
 		driver.get("https://www.saucedemo.com/");

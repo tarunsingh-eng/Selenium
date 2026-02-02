@@ -32,14 +32,14 @@ public class ECommerceTest {
 				"--window-size=1920,1080"
 				);
 		
-		// 🔑 Disable password manager & autofill
+		// 
 			options.addArguments("--user-data-dir=/tmp/selenium-profile");
 			options.addArguments("--disable-features=PasswordLeakDetection");
 			options.addArguments("--disable-save-password-bubble");
 			options.addArguments("--disable-features=AutofillServerCommunication");
 			options.addArguments("--disable-autofill-keyboard-accessory-view");
 
-			// 🔑 Stronger, recommended way
+			
 			options.setExperimentalOption("prefs", Map.of(
 				"credentials_enable_service", false,
 				"profile.password_manager_enabled", false

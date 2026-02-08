@@ -78,7 +78,7 @@ public class ECommerceTest {
 		driver.findElement(By.cssSelector("#continue")).click();
 		System.out.println("Information added");
 		driver.findElement(By.cssSelector("#finish")).click(); 
-		System.out.println("Checkout successful");
+		System.out.println("Checkout-successful");
 		driver.quit();
 	}
 	

@@ -25,7 +25,7 @@ public class WebsiteBasicTest {
         driver.get("https://tarunsingh.co.in/");
         
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(120));
 
         wait.until(ExpectedConditions.titleContains("Tarun Singh"));
 

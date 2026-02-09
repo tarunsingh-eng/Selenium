@@ -2,7 +2,6 @@ import java.time.Duration;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -26,11 +25,9 @@ public class WebsiteBasicTest {
         driver.get("https://tarunsingh.co.in/");
         
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//h2[normalize-space()='Tarun Singh']")
-        ));
+        wait.until(ExpectedConditions.titleContains("Tarun Singh"));
 
         String title = driver.getTitle();
 

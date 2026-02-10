@@ -124,7 +124,7 @@ async function readSeleniumResults() {
 </head>
 <body>
 
-<h1>🧪 QA Automation Dashboard</h1>
+<h1> QA Automation Dashboard</h1>
 
 <div class="grid">
 

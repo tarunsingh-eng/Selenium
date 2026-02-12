@@ -64,7 +64,7 @@ public class ECommerceTest {
         driver.findElement(By.cssSelector("#add-to-cart-sauce-labs-bike-light")).click(); 
         System.out.println("Item Added ");
 		driver.findElement(By.cssSelector(".shopping_cart_link")).click(); 
-        System.out.println("Open Cart ");
+        System.out.println("OpenCart");
 
 		//wait.until(ExpectedConditions.urlContains("cart.html"));
 		//System.out.println("Cart Page");
